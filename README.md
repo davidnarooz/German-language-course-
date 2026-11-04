@@ -33,3 +33,23 @@ Fortschritt wird im lokalen Browser gespeichert. Ohne verfügbaren Speicher kann
 - [Textlicher Studienführer](study-materials/start-lesson-study-guide.md): ergänzende Referenz.
 
 Die Website verwendet eigene Übungsformulierungen und eine eigene SVG-Illustration. Flaggen und weitere Symbole werden als Unicode dargestellt.
+
+## Lektion 1 · Maria – Wie geht’s?
+
+Wähle oben **Lektion 1**. Acht Themen begleiten die Buchseiten 15–24: Befinden, du/Sie, Herkunft und Wohnort, Verben, W-Fragen, andere Personen, Interviews und Wiederholung. Es gibt 64 Aufgaben und einen Lektion-1-Check mit 24 Aufgaben (drei pro Thema).
+
+Jedes Thema bietet Lernkarten, ein gesprochenes Modellgespräch mit einblendbarem Text und eine eigene Sprechaufgabe. Weitere Aktivitäten sind Zuordnungen, Satzbausteine, eine schematische Kontinentkarte und ein persönlicher Vorstellungsbogen. Die Dialoge sind neu geschriebene Beispiele und verwenden die Browserstimme, nicht die Originalaufnahmen des Buches.
+
+Start und Lektion 1 speichern Fortschritt getrennt. Vorhandene Start-Ergebnisse werden beim ersten Öffnen übernommen. Richtig gelöste Aufgaben bleiben als gelernt gespeichert; auch Korrekturen in der Fehlerwiederholung zählen. Lesehilfe und angezeigte Lösungen zählen nicht als selbstständig gelöst. Der Löschknopf setzt beide Lektionen zurück.
+
+### Prüfung der Anwendung
+
+Mit Node.js im Projektordner:
+
+```sh
+node --check app.js
+node --check lesson1.js
+node test-course.cjs
+```
+
+Die automatischen Prüfungen kontrollieren Inhalte, Antwortschlüssel, Zuordnungen, Aufgabenzahl, Prüfungsverteilung, grundlegende Darstellungspfade mit einem simulierten DOM, Bewertung, Fortschritt und Datenübernahme. Layout, Tastaturbedienung und verfügbare Stimmen müssen zusätzlich im echten Browser geprüft werden.
