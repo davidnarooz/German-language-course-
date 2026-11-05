@@ -1,0 +1,16 @@
+const fs=require('fs'),vm=require('vm'),assert=require('node:assert/strict');
+const ctx={};vm.createContext(ctx);vm.runInContext(['data.js','lesson1.js','lesson1-plus.js','lesson2.js'].map(f=>fs.readFileSync(f,'utf8')).join('\n'),ctx);
+const run=code=>vm.runInContext(code,ctx);
+assert.equal(run('lesson2Modules.length'),8);assert.equal(run('lesson2Modules.reduce((s,m)=>s+m.questions.length,0)'),194);
+assert.equal(run('l2Grammar.length'),7);assert.equal(run('lesson2Sources.length'),48);assert.equal(run('lesson2Sources.every(s=>s.verified)'),true);
+for(const [n,expected] of [[0,'null'],[1,'eins'],[21,'einundzwanzig'],[30,'dreißig'],[60,'sechzig'],[70,'siebzig'],[99,'neunundneunzig'],[100,'einhundert'],[101,'einhunderteins'],[124,'einhundertvierundzwanzig'],[291,'zweihunderteinundneunzig'],[999,'neunhundertneunundneunzig'],[1000,'eintausend']])assert.equal(run(`germanNumber(${n})`),expected);
+for(const n of [-1,1001,1.5])assert.throws(()=>run(`germanNumber(${n})`));
+assert.equal(run("l2Verbs.sprechen[1]"),'sprichst');assert.equal(run("l2Verbs.sprechen[4]"),'sprecht');assert.equal(run('l2Verbs.sein[4]'),'seid');
+assert.equal(run("normalizePhone('+43 (0)664 78-11-12-09')"),run("normalizePhone('+43 66478111209')"));
+assert.equal(run("phoneSpeech('0664')"),'null sechs sechs vier');assert.equal(run("emailSpeech('a-b_c@d.at')"),'a – minus – b – Unterstrich – c – at – d – Punkt – a – t');
+assert.equal(run("parseSix('1, 2, 3, 4, 5, 45').length"),6);
+for(const val of ['1,2,3,4,5,5','0,1,2,3,4,5','1,2,3,4,5,46','1,2,3,4,5,6.1','1,2,3','1,2,3,4,5,6x'])assert.equal(run(`parseSix(${JSON.stringify(val)})`),null);
+const files=fs.readdirSync('course-book-screenshots/lesson-02');assert.equal(run('lesson2Sources.every(s=>'+JSON.stringify(files)+'.includes(s.name))'),true);
+run(`const qids=new Set();for(const m of lesson2Modules){if(m.questions.length<12)throw Error('minimum questions');if(!m.turns.length||!m.task)throw Error('missing activity');for(const q of m.questions){if(qids.has(q.id))throw Error('duplicate ID');qids.add(q.id);if(!q.answer||!q.objective||!q.grammar||!q.sourceFiles.length||!q.explanation)throw Error('missing metadata');if(!l2Grammar.some(t=>t.id===q.grammar))throw Error('grammar link');if(q.options&&!q.options.includes(q.answer))throw Error('answer key');if(q.type==='order'&&q.tiles.slice().sort().join('|')!==((q.joiner===''?[...q.answer]:q.answer.split(' ')).sort().join('|')))throw Error('tiles');}}`);
+assert.equal(run("lesson2Modules.find(m=>m.id==='languages2').questions.find(q=>q.prompt.includes('Afghanistan')).alternatives.includes('Paschto')"),true);
+console.log('PASS: 194 questions, 8 modules, 7 grammar topics, 48 source mappings/files, number boundaries and exceptions, verb forms, phone/email speech, valid alternatives, unique IDs and exact letter tiles.');

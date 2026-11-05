@@ -78,3 +78,37 @@ node test-browser.cjs
 Optional `CHROMIUM_PATH` auf den installierten Browser setzen. Der Test startet einen lokalen Server und prüft die Oberfläche bei 390 px und 1280 px Breite, alle 151 Antwortschlüssel, Grammatiknavigation, freie Texte, Spiele, Bilddialog, Sprachsteuerung, Prüfung, Antwortsperren und Fortschrittsübernahme. Wenn Screenshots im lokalen Checkout fehlen, verwendet nur der Bilddialogtest ein deutlich gekennzeichnetes Testbild. Die Originalpixel werden dadurch nicht geprüft. Die Sprachsteuerung wird zusätzlich mit simulierten deutschen Stimmen getestet; Klangqualität und tatsächliche verfügbare Stimmen hängen weiterhin vom Gerät ab.
 
 Prüfergebnis: Syntaxprüfungen, `node test-course.cjs` und der vollständige Chromium-Test bestanden. Hosting wurde nicht verändert.
+
+## Lektion 2 · Ahmet – Nachbarn kennenlernen
+
+Oben **Lektion 2** wählen. Die acht Themen sind Unsere Nachbarn, Familie und Kinder, Wie alt bist du?, Welche Sprachen sprichst du?, Wir und ihr, Zahlen bis 1.000, Adresse und Formulare sowie Das kann ich! Es gibt **194 bewertete Aufgaben**, einen Check mit **24 Aufgaben** (drei je Thema), sieben visuelle Grammatikbereiche und zusätzliche Aktivitäten zur Selbstkontrolle.
+
+### Entdecken und anwenden
+
+- **Grammatik entdecken:** Ja-/Nein-Fragen, haben, sprechen mit e → i, wir/ihr, kein/keine, Alter/Dauer und Zahlenbildung. Die Erklärung bleibt Deutsch und verbindet Bild, Regel, wechselbare Satzbausteine, Aussprache und eine kleine Übung. Die Verbtabellen enthalten alle sechs Personenreihen; sie/Sie teilen eine Reihe.
+- **Rollen und Sprachen:** erfundene Familienprofile, ein Sprachenprofil mit Kenntnisstufen und ein Gruppenplakat für drei Personen mit Alters-/Kinder-Summen und Sprachzählung.
+- **Zahlen:** fünf Zahlen diktieren, Zahlen von 0 bis 1.000 mit Hundertern/Zehnern/Einern bauen und sechs verschiedene Zahlen auf dem Feld 1–45 wählen. Die erzeugte Ziehung ist eine neue Zusatzübung, keine Originalaufnahme. Das Spiel bewertet keine echten Wetten.
+- **Formulare:** Ahmets sichtbare Visitenkarte lesen und acht Felder mit Einzelrückmeldungen ausfüllen; Telefonnummern bleiben Zeichenfolgen mit führenden Nullen. Dazu kommen eine eigene erfundene Visitenkarte und eine lokale Übungsliste. Telefonnummern werden ziffernweise, E-Mail-Symbole als at/minus/Unterstrich/Punkt gesprochen.
+- **Wiederholen:** Wortkarten, Kursgeschichte, zwei Würfel für Person/Verb und ein Sprachenplakat. Freie Texte werden mit Beispielen und Checklisten verglichen, nicht automatisch bewertet.
+
+Alle **48 Bilder** sind unter „Im Buch“ im passenden Thema erreichbar und wurden visuell geprüft. Die anfangs nicht lesbare Seite 25 konnte per Originaldownload geprüft werden. [Quellenaudit Lektion 2](docs/lesson-2-audit.md) dokumentiert jede Datei. Originalaufnahmen und referenzierte Partner-/Zusatzseiten fehlen weiterhin. Bewertete Buchantworten stützen sich auf sichtbare Texte; neue Hörsituationen sind als Zusatzübungen gekennzeichnet.
+
+### Gemeinsame Funktionen und Speicherung
+
+`lesson2.js` registriert Inhalt, Grammatik, Quellen, Dialoge, Aktivitäten und Prüfungsverteilung. Die gemeinsamen Ansichten lesen diese Angaben aus der gewählten Lektion; Quellenpfade, Grammatiklinks und die Prüfung sind nicht mehr fest an Lektion 1 gebunden. Buchstabenkacheln können ohne Leerzeichen zu Wörtern verbunden werden; Satzkacheln behalten Leerzeichen. Start und Lektion 1 behalten ihre Aufgaben-IDs und Lernerfolge.
+
+Lektion-2-Fortschritt verwendet den vorhandenen Speicherschlüssel mit dem Namensraum `lesson2:`. Familienrollen, Kontaktkarten, freie Texte und Gruppen-/Sprachenplakate werden nur auf der geöffneten Seite gehalten und beim Neuladen verworfen. Sie werden nicht an einen Server gesendet. Verfügbare Browserstimmen werden weiterhin bevorzugt als de-AT ausgewählt. Ein neuer Hörerfolg benötigt abgeschlossene Wiedergabe ohne Lesehilfe.
+
+### Prüfung von Lektion 2
+
+```sh
+node --check lesson2.js
+node test-course.cjs
+node test-lesson2.cjs
+node test-browser.cjs
+node test-browser-lesson2.cjs
+```
+
+Die Browsertests benötigen vorhandenes Playwright und Chromium (`CHROMIUM_PATH` optional). Für `test-lesson2.cjs` und den neuen Browsertest muss das Repository einschließlich der Screenshots lokal vorliegen. `test-browser-lesson2.cjs` prüft die echten 48 Bilder ohne Bild-Fixtures, alle 194 Antwortschlüssel, die sieben Grammatikbereiche, alle acht Themen, Aktivitätssteuerung, Formate/Fehlerfälle, Prüfung, Telefon-/Desktoplayout sowie getrennten Fortschritt nach Neuladen. Die Sprachsteuerung wird mit simulierten deutschen Stimmen getestet; die verfügbare Stimme und die tatsächliche Klangqualität bleiben geräteabhängig.
+
+Ergebnis: Syntax-/Inhaltsprüfungen sowie beide Chromium-Suiten bestanden. Die 48 lokal geladenen Originalbilder wurden außerdem mit ihren GitHub-Blob-Hashes abgeglichen. Hosting wurde nicht verändert.

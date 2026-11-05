@@ -1,7 +1,7 @@
 const fs=require('fs'),vm=require('vm'),assert=require('assert');
-const nodes={};const node=()=>({innerHTML:'',textContent:'',hidden:false,querySelector:()=>node(),setAttribute(){},focus(){},classList:{add(){}}});
+const nodes={};const node=()=>({value:'0',innerHTML:'',textContent:'',hidden:false,querySelector:()=>node(),setAttribute(){},focus(){},classList:{add(){}}});
 const storage={};const ctx={console,window:{},document:{querySelector:s=>nodes[s]||(nodes[s]=node()),querySelectorAll:()=>[]},localStorage:{getItem:k=>storage[k]||null,setItem:(k,v)=>storage[k]=v},confirm:()=>false,setTimeout,FormData:class{}};
-vm.createContext(ctx);const data=fs.readFileSync('data.js','utf8')+'\n'+fs.readFileSync('lesson1.js','utf8')+'\n'+fs.readFileSync('lesson1-plus.js','utf8');const app=fs.readFileSync('app.js','utf8');vm.runInContext(data+'\n'+app,ctx);
+vm.createContext(ctx);const data=fs.readFileSync('data.js','utf8')+'\n'+fs.readFileSync('lesson1.js','utf8')+'\n'+fs.readFileSync('lesson1-plus.js','utf8')+'\n'+fs.readFileSync('lesson2.js','utf8');const app=fs.readFileSync('app.js','utf8');vm.runInContext(data+'\n'+app,ctx);
 vm.runInContext(`
 if(lesson1Modules.length!==8)throw Error('module count');
 const ids=new Set();for(const m of lesson1Modules){if(m.questions.length<8)throw Error('question count');if(!m.dialogue||!m.task||!m.source)throw Error('missing learning content');for(const q of m.questions){if(ids.has(q.id))throw Error('duplicate ID');ids.add(q.id);if(!q.explanation||!q.source)throw Error('missing feedback');if(q.options&&!q.options.includes(q.answer))throw Error('option key');if(q.type==='order'&&q.tiles.slice().sort().join('|')!==q.answer.split(' ').sort().join('|'))throw Error('tiles');if(q.type==='match'&&new Set(q.pairs.map(p=>p[1])).size!==q.pairs.length)throw Error('ambiguous match');}}
@@ -14,4 +14,4 @@ if(normal(' GRÜN! ')!==normal('grün'))throw Error('normalization');if(normal('
 `,ctx);
 assert(storage['deutsch-course-v2']);
 const legacy={done:['names'],missed:['numbers-0']};storage['deutsch-course-v2']=null;storage['deutsch-start-v1']=JSON.stringify(legacy);const ctx2={...ctx};vm.createContext(ctx2);vm.runInContext(data+'\n'+app+`;if(!state.done.includes('start:names')||!state.missed.includes('start:numbers-0'))throw Error('migration');`,ctx2);
-console.log('PASS: expanded questions, 8 modules, IDs, answer keys, matching pairs, 24-question balanced exam, render smoke checks for both lessons, feedback, retries, reading alternatives, mastery, migration and persistence.');
+console.log('PASS: expanded questions, 8 modules, IDs, answer keys, matching pairs, 24-question balanced exam, render smoke checks for Start, Lesson 1 and Lesson 2, feedback, retries, reading alternatives, mastery, migration and persistence.');
